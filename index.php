@@ -1,31 +1,45 @@
+<?php
+require('lib/print.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+       <title> 
+       print_title()
+       </title>
 </head>
 <body>
       
-       <h1>WEB</h1>
-
+       <h1><a href="index.php">WEB</a></h1>
        <ol>
-       <li><a href="index.php?id=html">html</a></li>
-       <li><a href="index.php?id=CSS">css</a></li>
-       <li><a href="index.php?id=javaScript">javaScript</a></li>
+       <?php 
+       script();
+       ?>
        </ol>
+       <a href="create.php">create</a>
+       <?php  if(isset($_GET['id'])){ ?>
+              <a href="update.php?id=<?php echo $_GET['id']; ?>">update</a>
+              <form action="delte_process.php" method="post"> 
+              <input type="hidden" name="id" value="<?=$_GET['id']?>">
+              <input type="submit" value="delete">
+              </form>
+
+       <?php } ?>
+       
+       
 
        <h2>
        <?php 
-       echo $_GET['id'];
+          print_title()
        ?>
        </h2>
 
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-       sed do eiusmod tempor incididunt ut labore et dolore magna
-       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-       ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-       Duis aute irure dolor in reprehenderit in voluptate velit 
-       illum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-       cupidatat non proident, sunt in culpa qui o
-       fficia deserunt mollit anim id est laborum
+       <?php 
+      script2();
+       ?>
 
-</body>
-</html>
+       
+<?php 
+require('lib/bottom.php');
+?>

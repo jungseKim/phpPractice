@@ -4,7 +4,7 @@
 </head>
 <body>
     <?php
-$name="forforforn";
+    $name="forforforn";
   echo "PHP Integer
   An integer data type is a non-decimal number between -2,147,483,648 and 2,147,483,647.
   
