@@ -1,4 +1,6 @@
 <?php
+
+//같은 코드 중복되면 에러남 그럴때는 require_once 를쓰면 됨
 require('lib/print.php');
 ?>
 
@@ -6,7 +8,9 @@ require('lib/print.php');
 <html lang="en">
 <head>
        <title> 
-       print_title()
+       <?php 
+       print_title();
+       ?>
        </title>
 </head>
 <body>

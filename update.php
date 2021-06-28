@@ -6,7 +6,9 @@ require('lib/print.php');
 <html lang="en">
 <head>
        <title> 
-       print_title()
+       <?php 
+       print_title();
+       ?>
        </title>
 </head>
 <body>
