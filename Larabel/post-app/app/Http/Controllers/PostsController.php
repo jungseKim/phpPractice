@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -19,8 +21,32 @@ class PostsController extends Controller
             $title=$request->title;
             $content=$request->content;
 
-            dd($request);
-    }
+            //검사
+            $request->validate(
+                [
+                'title'=>'required|min:3',
+                'content'=>'required'
+                ]
+            );
+
+            // dd($request);
+
+            //디비에 저장 하고 
+
+            $post=new Post();
+            $post->title=$title;
+            $post->content=$content;
+            $post->user_id=Auth::user()->id;
+
+            $post->save();
+
+            //결과 뷰를 반환 
+           return redirect('/posts/index');
+    
+            //get 방식요청 view return
+            //post 방식은 redirection 
+
+        }
     public function update(){
         return view('posts.update');
     }
@@ -36,6 +62,16 @@ class PostsController extends Controller
     }
     public function index(){
         //뷰 필요
-        return view('posts.index');
+        // return view('posts.index');
+        
+        //orderBy 쓰면 get 해줘야됨
+        // $posts=Post::orderBy('created_at','desc')->get();
+
+        // $posts=Post::latest()->get();
+
+        $posts=Post::latest()->paginate(5);
+
+        // dd($posts[0]->created_at);
+        return view('posts.index',['posts'=>$posts]);
     }
 }
