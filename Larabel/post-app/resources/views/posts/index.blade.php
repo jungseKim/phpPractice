@@ -8,12 +8,21 @@
 </head>
 <body>
     <div class="container mt-5 mb-5">
+        {{-- 대괄호로 해야 라우터 이동가능  --}}
+        <a href="{{ route('dashboard') }}">DashBored</a>
         <h1>게시글 리스트</h1>
+       @auth
         <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
+        @endauth
         <ul class="list-group mt-3">
             @foreach($posts as $post)
             <li class="list-group-item">
-                <span>Title : {{ $post->title}}</span>
+                <span>             
+                    <a href="{{ route('posts.show',
+                    ['id'=>$post->id,'page'=>$posts->currentPage()]) }}">
+                        Title : {{ $post->title}}
+                    </a>
+                </span>
                 <div>
                     Content : {{ $post->content }}
                 </div>

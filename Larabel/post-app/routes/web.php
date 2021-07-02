@@ -24,13 +24,21 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+// Route::get('/posts/create',[PostsController::class,'create'])
+// ->middleware(['auth']);
+//미들웨어 종류가 여러개니까 배열로 보내고
+//순서 ->kernel(라우터 미들웨어)->Authenticate->auth.php
+
+
 Route::get('/posts/create',[PostsController::class,'create']);
+
 
 Route::post('/posts/store',[PostsController::class,'store']);
 
-Route::get('/posts/index',[PostsController::class,'index']);
 
+Route::get('/posts/index',[PostsController::class,'index'])
+->name('posts.index');
 
-Route::get('/temp',function(){
-    return 1;
-});
+         //이렇게 하면 url 파라미터 뒤에 ? 붙으면 쿼리 스트링 
+Route::get('/posts/show/{id}',[PostsController::class,'show'])
+->name('posts.show');

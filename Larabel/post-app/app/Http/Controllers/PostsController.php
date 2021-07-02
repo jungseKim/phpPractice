@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
+    //이렇게 하면 이안에 있는 모든 메소드에 다적용
+    public function __construct()
+    {                                  //예외
+        $this->middleware(['auth'])->except(['index','show']);
+    }
+
     public function create(){
         //뷰 필요
         // dd('ok');오류 띄어줌
@@ -41,6 +48,9 @@ class PostsController extends Controller
             $post->save();
 
             //결과 뷰를 반환 
+            //리다이렉션 안했을때 뷰는 이거고 링크는 store그대로임 
+            // return view('/post/index');
+
            return redirect('/posts/index');
     
             //get 방식요청 view return
@@ -56,9 +66,16 @@ class PostsController extends Controller
     public function destory(){
         
     }
-    public function show(){
-        //뷰 
-        return view('posts.show');
+    //쿼리 스트링 하고 url 구분하기
+    public function show(Request $request,$id){
+        //파라미터로 받을때 항상 리퀘스트 객체가 먼저있어야됨
+        
+        // dd($request->page);
+        $page=$request->page;
+        $post=Post::find($id);
+        // $user_name=User::find($id);
+    
+        return view('posts.show',compact('post','page'));
     }
     public function index(){
         //뷰 필요
