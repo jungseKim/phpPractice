@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllControll;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('posts/create',[AllControll::class,'create']);
+
+Route::post('/posts/store',[AllControll::class,'store']);
+
+Route::get('posts/index',[AllControll::class,'index'])
+->name('posts.index');
+
+Route::get('posts/show/{id}',[AllControll::class,'show'])
+->name('posts.show');
