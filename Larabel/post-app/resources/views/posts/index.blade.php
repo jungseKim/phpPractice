@@ -23,10 +23,11 @@
                         Title : {{ $post->title}}
                     </a>
                 </span>
-                <div>
+                {{-- <div>
                     Content : {{ $post->content }}
-                </div>
-                <span>written on {{ $post->created_at }}</span>
+                </div> --}}
+                {{-- <span>written on {{ $post->created_at }}</span> --}}
+                <span>written on {{ $post->created_at->diffForHumans()}}</span>
             </li>
             @endforeach
           </ul>

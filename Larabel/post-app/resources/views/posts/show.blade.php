@@ -25,6 +25,17 @@
               <textarea class="form-control" name="content" id="content">{{ $post->content }}</textarea>
             </div>
             <div class="form-group">
+              <label for="imageFile">이미지</label>
+              <div >
+                {{-- <img class="img-thumbnail" width="20%"  src="/storage/image/{{ $post->img ?? 'noimge.jpg' }}"/> --}}
+                <img class="img-thumbnail" 
+                width="20%"  
+                src="{{ $post->imagePath() }}"/>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
               <label>등록일</label>
               <input type="text" name="title" readonly
                class="form-control" value="{{$post->created_at->diffForHumans()}}">

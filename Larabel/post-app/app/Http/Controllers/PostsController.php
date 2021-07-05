@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Str;
 class PostsController extends Controller
 {
     //이렇게 하면 이안에 있는 모든 메소드에 다적용
@@ -28,11 +28,12 @@ class PostsController extends Controller
             $title=$request->title;
             $content=$request->content;
 
-            //검사
+            //검사  오류나면 자동으로 전 페이지로 리다이렉션 시켜줌
             $request->validate(
                 [
                 'title'=>'required|min:3',
-                'content'=>'required'
+                'content'=>'required',
+                'imageFile'=>'image|max:2000'
                 ]
             );
 
@@ -45,11 +46,28 @@ class PostsController extends Controller
             $post->content=$content;
             $post->user_id=Auth::user()->id;
 
+            //파일 처리
+            //원하는 파일 시스템 위치에 원하는 이름으로 
+            //파일을 저장하고 
+             //그 파일 이름을칼럼에 설정 
+            
+            if($request->file('imageFile')){
+                $name=$request->file('imageFile')->getClientOriginalName();
+            
+                $extension=$request->file('imageFile')->extension();
+                $originalName=Str::of($name)->basename('.'.$extension);
+                
+                $fileName=$originalName.'_' .time().'.'.$extension;
+                // dd($fileName);
+    
+                $request->file('imageFile')->storeAs('public/image',$fileName);
+                $post->img=$fileName;
+            }
+         
             $post->save();
 
             //결과 뷰를 반환 
             //리다이렉션 안했을때 뷰는 이거고 링크는 store그대로임 
-            // return view('/post/index');
 
            return redirect('/posts/index');
     
