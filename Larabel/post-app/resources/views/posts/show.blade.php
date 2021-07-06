@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-      <div class="container">
+      <div class="container m-5">
        <div class=" mt-5 mb-3">
               <a class="btn btn-primary" href="{{ route('posts.index',['page'=>$page]) }}">목록 보기</a>
        </div>
@@ -51,10 +51,18 @@
             <div class="form-group">
               <label>작성자</label>
               <input type="text" name="title" readonly
-               class="form-control" value="{{$post->user_id}}">
+               class="form-control" value="{{$user_name}}">
               
             </div>
-        
+      {{-- @if ($my=$post->user_id) --}}
+      <div class="flex mt-3">
+        <button class="btn btn-warning"
+        onclick=location.href="{{ route('posts.edit',['id'=>$post->id]) }}">수정</button>
+        <button class="btn btn-danger"
+        onclick=location.href="{{ route('posts.delete',['id'=>$post->id])  }}">삭제</button>
+       </div>
+      {{-- @endif --}}
+  
       </div>
 </body>
 </html>

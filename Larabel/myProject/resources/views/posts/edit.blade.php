@@ -8,33 +8,42 @@
 </head>
 <body>
     <div class="container">
-        <form action="/posts/store" method="post"
+        <form action="{{ route('posts.update',['id'=>$post->id])}} "
+              method="post"
         enctype="multipart/form-data">
           @csrf
+          @method('put')
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" name="title" class="form-control" id="title"
-               value="{{ old('title') }}">
+              value="{{ old('title')?old('title'):$post->title }}">
                 @error('title')
-                    <div>{{ $message }}</div>
+                  <div>{{ $message }}</div>
                 @enderror
               
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea class="form-control" name="content" id="content">{{ old('content') }}</textarea>
-                @error('content')
-                    <div>{{ $message }}</div>
-                @enderror
-            </div><br>
+              <textarea class="form-control" name="content" id="content">{{ old('content')?old('content'):$post->content }}</textarea>
+            </div>
+            
+              @error('content')
+              <div >{{ $message }}</div>     
+              @enderror
+          
+            <br>
+            <div class="form-group mt-2">
+                   <img class='img-thumbnail' width="20%"
+                   src="{{ $post->imagePath() }}">
+            </div>
 
             <div class="form-group mb-4">
                 <label for="file">File</label><br>
                 <input type="file" name="imageFile" id="file">
-                  @error('imageFile')
-                      <div>{{ $message }}</div>
-                  @enderror
               </div>
+              @error('image')
+                  <div>{{ $message }}</div>
+              @enderror
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

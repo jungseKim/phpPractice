@@ -8,13 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <form action="/posts/store" method="post"
+           <h1 >수정</h1>
+        <form action="{{ route('posts.update',['id'=>$post->id]) }}" method="post"
         enctype="multipart/form-data">
           @csrf
+          {{-- 토큰을 이용한 사용자 인지 아닌지 확인  --}}
+          @method('put')
+          {{-- 이걸 하면 인풋 메소드 만들어줌 --}}
+           {{-- method spoofing --}}
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" name="title" class="form-control" id="title"
-               value="{{ old('title') }}">
+               value="{{ old('title')?old('title'):$post->title }}">
                 @error('title')
                     <div>{{ $message }}</div>
                 @enderror
@@ -22,15 +27,18 @@
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea class="form-control" name="content" id="content">{{ old('content') }}</textarea>
+              <textarea class="form-control" name="content" id="content">{{ old('content')?old('content'):$post->content}}</textarea>
                 @error('content')
                     <div>{{ $message }}</div>
                 @enderror
             </div><br>
-
-            <div class="form-group mb-4">
+            <div class="form-group">
+              <img class="img-thumbnail" width="20%"
+              src="{{ $post->imagePath() }}">
+       </div>
+            <div class="form-group mt-2">
                 <label for="file">File</label><br>
-                <input type="file" name="imageFile" id="file">
+                <input class="form-control" type="file" name="imageFile" id="file">
                   @error('imageFile')
                       <div>{{ $message }}</div>
                   @enderror

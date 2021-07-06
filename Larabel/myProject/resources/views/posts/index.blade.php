@@ -8,21 +8,25 @@
 <body>
        
        <a href="/" class="mt-5 mr-5">메인화면</a>
- 
+       
       <div class="container mt-5 mb-5">
+       <h1 class="display-3" > 글목록 </h1>
         @auth
       <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
       @endauth
        <ul class="list-group mt-3">
        @foreach ($posts as $post)
         <li class="list-group-item">
-             <span><a href="{{ route('posts.show',['id'=>$post->id]) }}">title: {{ $post->title }}</a></span>
+             <span><a href="{{ route('posts.show',['id'=>$post->id,'page'=>$posts->currentPage()]) }}">title: {{ $post->title }}</a></span>
              <br>
-             <span>wirted on:{{ $post->created_at }}</span>
+             <span>writend time : {{ $post->created_at->diffForHumans() }}</span>
         </li>   
         @endforeach
        </ul>
-
+       <div class="mt-4">
+              {{ $posts->links() }}
+       </div>
       </div>
+     
 </body>
 </html>

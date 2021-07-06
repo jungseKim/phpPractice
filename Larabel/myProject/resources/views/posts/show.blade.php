@@ -11,7 +11,7 @@
 <body>
       <div class="container">
        <div class=" mt-5 mb-3">
-              <a class="btn btn-primary" href="{{ route('posts.index') }}">목록 보기</a>
+              <a class="btn btn-primary" href="{{ route('posts.index',['page'=>$page]) }}">목록 보기</a>
        </div>
 
        <div class="form-group">
@@ -45,8 +45,13 @@
             <div class="form-group">
               <label>작성자</label>
               <input type="text" name="title" readonly
-               class="form-control" value="{{$post->user_id}}">
-              
+               class="form-control" value="{{ $nickName }}">
+            </div>
+            <div>
+                   <button class="btn btn-primary"
+                   onclick=location.href="{{ route('posts.edit',['id'=>$post->id]) }}">수정</button>
+                   <button class="btn btn-warning"
+                   onclick=location.href="{{ route('posts.delete',['id'=>$post->id]) }}">삭제</button>
             </div>
         
       </div>

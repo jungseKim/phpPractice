@@ -33,3 +33,12 @@ Route::get('posts/index',[AllControll::class,'index'])
 
 Route::get('posts/show/{id}',[AllControll::class,'show'])
 ->name('posts.show');
+
+Route::get('posts/{id}',[AllControll::class,'edit'])
+->name('posts.edit');
+
+Route::put('posts/{id}',[AllControll::class,'update'])
+->name('posts.update');
+
+Route::delete('posts.delete',[AllControll::class,'delete'])
+->name('posts.delete');

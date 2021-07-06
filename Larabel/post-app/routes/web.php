@@ -42,3 +42,10 @@ Route::get('/posts/index',[PostsController::class,'index'])
          //이렇게 하면 url 파라미터 뒤에 ? 붙으면 쿼리 스트링 
 Route::get('/posts/show/{id}',[PostsController::class,'show'])
 ->name('posts.show');
+
+Route::get('/posts/{id}',[PostsController::class,'edit'])
+->name('posts.edit');
+Route::put('/posts/{id}',[PostsController::class,'update'])
+->name('posts.update');
+Route::delete('/posts/{id}',[PostsController::class,'destroy'])
+->name('posts.delete');

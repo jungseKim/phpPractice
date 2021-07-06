@@ -13,20 +13,33 @@
           @csrf
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" name="title" class="form-control" id="title">
-                
+              <input type="text" name="title" class="form-control" id="title"
+              value="{{ old('title') }}">
+                @error('title')
+                  <div>{{ $message }}</div>
+                @enderror
               
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea class="form-control" name="content" id="content">
+              <textarea class="form-control" name="content" id="content"
+              value="{{ old('content') }}">
                  </textarea>
-            </div><br>
+            </div>
+            
+              @error('content')
+              <div >{{ $message }}</div>     
+              @enderror
+          
+            <br>
 
             <div class="form-group mb-4">
                 <label for="file">File</label><br>
                 <input type="file" name="imageFile" id="file">
               </div>
+              @error('image')
+                  <div>{{ $message }}</div>
+              @enderror
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
