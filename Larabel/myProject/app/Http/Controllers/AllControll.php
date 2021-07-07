@@ -47,7 +47,11 @@ class AllControll extends Controller
     public function index(){
 
         $posts=Post::latest()->paginate(5);
-        return view('/posts/index',compact('posts'));
+     
+        $users=User::all();
+        
+        return view('/posts/index',compact('posts','users'));
+    
     }
     public function show(Request $request,$id){
         $page=$request->page;
@@ -85,8 +89,20 @@ class AllControll extends Controller
         
     }  
 
-    public function delete($id){
-        return "delete";
+    public function delete(Request $request,$id){
+        $post=Post::find($id);
+        if($post->image){
+        Storage::delete('public/image/'.$post->image);
+        }
+        $post->delete();
+        $page=$request->page;
+       return redirect()->route('posts.index',compact('page'));
+    }
+
+    public function userinfo($id){
+        $user=User::find($id);
+        $posts=Post::all();
+        return view('posts.userInfo',compact('user','posts'));
     }
 
     public function PathFind(Request $request){

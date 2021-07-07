@@ -9,7 +9,7 @@
 <body>
     <div class="container">
            <h1 >수정</h1>
-        <form action="{{ route('posts.update',['id'=>$post->id]) }}" method="post"
+        <form action="{{ route('posts.update',['id'=>$post->id,'page'=>$page]) }}" method="post"
         enctype="multipart/form-data">
           @csrf
           {{-- 토큰을 이용한 사용자 인지 아닌지 확인  --}}

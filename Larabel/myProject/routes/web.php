@@ -42,3 +42,6 @@ Route::put('posts/{id}',[AllControll::class,'update'])
 
 Route::delete('posts.delete',[AllControll::class,'delete'])
 ->name('posts.delete');
+
+Route::get('posts/userinfo/{id}',[AllControll::class,'userinfo'])
+->name('posts.userinfo');

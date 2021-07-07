@@ -54,15 +54,31 @@
                class="form-control" value="{{$user_name}}">
               
             </div>
-      {{-- @if ($my=$post->user_id) --}}
+      @auth
+      @can('update',$post)
+      {{-- @if (auth()->user()->id==$post->user_id)   --}}
       <div class="flex mt-3">
-        <button class="btn btn-warning"
-        onclick=location.href="{{ route('posts.edit',['id'=>$post->id]) }}">수정</button>
-        <button class="btn btn-danger"
-        onclick=location.href="{{ route('posts.delete',['id'=>$post->id])  }}">삭제</button>
-       </div>
-      {{-- @endif --}}
-  
+        <table>
+          <tr>
+            <td >
+              <button class="btn btn-warning"
+              onclick=location.href="{{ route('posts.edit',['id'=>$post->id,'page'=>$page]) }}">수정</button>
+            </td>
+            <td>
+              <form action="{{ route('posts.delete',['id'=>$post->id,'page'=>$page])  }}" method="post">
+                @csrf
+                @method('delete')
+              <button type="submit" class="btn btn-danger">삭제</button>
+              </form>
+            </td>
+          </tr>
+        </table>
+        </div>
+       @endcan
+        {{-- @endif --}}
+      @endauth
+      </div>
+
       </div>
 </body>
 </html>

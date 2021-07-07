@@ -95,15 +95,26 @@ class PostsController extends Controller
         // dd($posts[0]->created_at);
         return view('posts.index',['posts'=>$posts]);
     }
-    public function edit($id){
+    public function edit(Request $request,$id){
         //이렇게 하면 알아서 찾아서 달라는거 맞춰서 준다
+        $page=$request->page;
         $post=Post::find($id);
+
+        // 방법1 
+        if(auth()->user()->id != $post->user_id){
+            abort(403); 
+        }
+            //방법2
+        
+        
         // $post=Post::find($id);
         // dd($post);
-        return view('posts.edit')->with('post',$post);
+        return view('posts.edit',compact('post','page'));
     }
     public function update(Request $request,$id){
         
+        $page=$request->page;
+        // dd($page);
         //validation
         $request->validate(
             [
@@ -113,8 +124,18 @@ class PostsController extends Controller
             ]
         );
         $post=Post::find($id);
-        //게시글을 데이터 베이스에서 수정
+        
+        //수정 권한이 있는지 검사(로그인한 사용 와 게시글 의 작성자가 
+        //체크)
+        // if(auth()->user()->id != $post->user_id){
+        //     abort(403); 
+        // }
 
+        if($request->user()->cannot('update',$post)){
+            abort(403);
+        }
+
+        //게시글을 데이터 베이스에서 수정    
         //사진일 경우 기존파일 삭제 후 업데이트 
         if($request->file('imageFile')){
             $imagePath='public/image/'.$post->img;
@@ -129,12 +150,29 @@ class PostsController extends Controller
         $post->content=$request->content;
         $post->save();
         
-        return redirect()->route('posts.show',['id'=>$id]);
+        return redirect()->route('posts.show',['id'=>$id,'page'=>$page]);
         
     }
-    public function destroy(){
+    public function destroy(Request $request,$id){
         //파일 시스템에서 이미지 파일 삭제
         //게시글을 데이터 베이스에서 삭제 
+        $post=Post::findOrFail($id);
+        
+        // if(auth()->user()->id != $post->user_id){
+        //     abort(403); 
+        // }
+
+        if($request->user()->cannot('delete',$post)){
+            abort(403);
+        }
+
+        if($post->img){
+            $imagePath='public/image/'.$post->img;
+            Storage::delete($imagePath);
+        }
+        $post->delete();
+        $page=$request->page;
+        return redirect()->route('posts.index',['page'=>$page]);
     }
     protected function uploadPostImage(Request $request){
         $name=$request->file('imageFile')->getClientOriginalName();

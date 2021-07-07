@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-      <div class="container">
+      <div class="container ">
        <div class=" mt-5 mb-3">
               <a class="btn btn-primary" href="{{ route('posts.index',['page'=>$page]) }}">목록 보기</a>
        </div>
@@ -48,10 +48,11 @@
                class="form-control" value="{{ $nickName }}">
             </div>
             <div>
-                   <button class="btn btn-primary"
-                   onclick=location.href="{{ route('posts.edit',['id'=>$post->id]) }}">수정</button>
                    <button class="btn btn-warning"
-                   onclick=location.href="{{ route('posts.delete',['id'=>$post->id]) }}">삭제</button>
+                   onclick=location.href="{{ route('posts.edit',['id'=>$post->id]) }}">수정</button>
+                     
+                   <button class="btn btn-danger"
+                   onclick=location.href="{{ route('posts.delete',['id'=>$post->id,'page'=>$page]) }}">@method('delete')삭제</button>
             </div>
         
       </div>

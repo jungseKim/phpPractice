@@ -9,20 +9,32 @@
        
        <a href="/" class="mt-5 mr-5">메인화면</a>
        
-      <div class="container mt-5 mb-5">
-       <h1 class="display-3" > 글목록 </h1>
+      <div class="container mt-5 mb-5 ">
+       <h1 class="display-5 "> 글목록 </h1>
         @auth
       <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
       @endauth
-       <ul class="list-group mt-3">
-       @foreach ($posts as $post)
-        <li class="list-group-item">
-             <span><a href="{{ route('posts.show',['id'=>$post->id,'page'=>$posts->currentPage()]) }}">title: {{ $post->title }}</a></span>
-             <br>
-             <span>writend time : {{ $post->created_at->diffForHumans() }}</span>
+      <table class="table table-striped mt-4">
+       <thead>
+       <tr>
+              <td><h3>#</h3></td>
+              <td><h3>Title</h3></td>
+              <td><h3>Time</h3></td>
+              <td><h3>User</h3></td>
+       </tr>
+       </thead>
+       @for($i=1;$i-1<count($posts);$i++)
+               <tr>
+                     <td>{{ $i }}</td>
+                     <td><a href="{{ route('posts.show',['id'=>$posts[$i-1]->id,
+                     'page'=>$posts->currentPage()])}}">{{ $posts[$i-1]->title }}</a></td>
+                     <td>{{ $posts[$i-1]->created_at }}</td>
+                     <td><a href="{{ route('posts.userinfo',['id'=>$posts[$i-1]->user_id]) }}">{{ $users->find($posts[$i-1]->user_id)->name }}</a></td>
+              </tr>
+        
         </li>   
-        @endforeach
-       </ul>
+        @endfor
+       </table>
        <div class="mt-4">
               {{ $posts->links() }}
        </div>
