@@ -26,6 +26,9 @@ require __DIR__.'/auth.php';
 
 Route::get('posts/create',[AllControll::class,'create']);
 
+Route::get('posts/myIndex',[AllControll::class,'myIndex'])
+->name('posts.myIndex');
+
 Route::post('/posts/store',[AllControll::class,'store']);
 
 Route::get('posts/index',[AllControll::class,'index'])
@@ -40,8 +43,11 @@ Route::get('posts/{id}',[AllControll::class,'edit'])
 Route::put('posts/{id}',[AllControll::class,'update'])
 ->name('posts.update');
 
-Route::delete('posts.delete',[AllControll::class,'delete'])
+Route::delete('posts.delete/{id}',[AllControll::class,'delete'])
 ->name('posts.delete');
 
 Route::get('posts/userinfo/{id}',[AllControll::class,'userinfo'])
 ->name('posts.userinfo');
+
+Route::post('posts/comment',[AllControll::class,'comment'])
+->name('posts.comment');

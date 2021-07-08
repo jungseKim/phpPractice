@@ -79,7 +79,8 @@ class PostsController extends Controller
         $user_name=User::find($post->user_id)->name;
         // dd($user_name);
         $my=Auth::id();
-        return view('posts.show',compact('post','page','user_name','my'));
+        $where=$request->where;
+        return view('posts.show',compact('post','page','user_name','my','where'));
     }
     public function index(){
         //뷰 필요
@@ -99,17 +100,20 @@ class PostsController extends Controller
         //이렇게 하면 알아서 찾아서 달라는거 맞춰서 준다
         $page=$request->page;
         $post=Post::find($id);
-
+        $where=$request->where;
         // 방법1 
-        if(auth()->user()->id != $post->user_id){
-            abort(403); 
+        // if(auth()->user()->id != $post->user_id){
+        //     abort(403); 
+        // }
+        if($request->user()->cannot('update',$post)){
+            abort(403);
         }
             //방법2
         
         
         // $post=Post::find($id);
         // dd($post);
-        return view('posts.edit',compact('post','page'));
+        return view('posts.edit',compact('post','page','where'));
     }
     public function update(Request $request,$id){
         
@@ -149,8 +153,8 @@ class PostsController extends Controller
         $post->title=$request->title;
         $post->content=$request->content;
         $post->save();
-        
-        return redirect()->route('posts.show',['id'=>$id,'page'=>$page]);
+        $where=$request->where;
+        return redirect()->route('posts.show',['id'=>$id,'page'=>$page,'where'=>$where]);
         
     }
     public function destroy(Request $request,$id){
@@ -172,8 +176,23 @@ class PostsController extends Controller
         }
         $post->delete();
         $page=$request->page;
+
+        $where=$request->where;
+        if($where=='my'){
+            return redirect()->route('posts.myPosts',['page'=>$page]);    
+        }
         return redirect()->route('posts.index',['page'=>$page]);
     }
+
+    public function myPosts(){
+        // $posts=auth()->user()->posts->paginaet(5);
+        // $p=Post::find($posts->id)->latest()->paginate(5);
+        $posts=Post::latest()->where('user_id',auth()->user()->id)->paginate(5);
+        // dd($p);
+        return view('posts.myPosts',compact('posts'));
+    }
+
+
     protected function uploadPostImage(Request $request){
         $name=$request->file('imageFile')->getClientOriginalName();
             

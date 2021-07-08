@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table="users";
+    //여기 값을 지정하면 다른 테이블을 참조할수있다
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -40,4 +44,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }

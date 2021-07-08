@@ -22,4 +22,8 @@ class Post extends Model
         $imageFile=$this->img??'noimge.jpg';
         return $path.$imageFile;
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+        //belongsTo 내부적으로 조인함 객체가 반환 된다.
+    }
 }

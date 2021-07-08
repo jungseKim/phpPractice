@@ -11,8 +11,12 @@
 <body>
       <div class="container m-5">
        <div class=" mt-5 mb-3">
+         @if ($where=='my')
+            <a class="btn btn-primary" href="{{ route('posts.myPosts',['page'=>$page]) }}">내목록 보기</a>
+         @else
               <a class="btn btn-primary" href="{{ route('posts.index',['page'=>$page]) }}">목록 보기</a>
-       </div>
+          @endif
+          </div>
 
        <div class="form-group">
               <label for="title">Title</label>
@@ -22,7 +26,7 @@
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea class="form-control" name="content" id="content">{{ $post->content }}</textarea>
+              <div class="form-control" name="content" id="content">{!!  $post->content  !!}</div>
             </div>
             <div class="form-group">
               <label for="imageFile">이미지</label>
@@ -51,7 +55,7 @@
             <div class="form-group">
               <label>작성자</label>
               <input type="text" name="title" readonly
-               class="form-control" value="{{$user_name}}">
+               class="form-control" value="{{$post->user->name}}">
               
             </div>
       @auth
@@ -62,10 +66,10 @@
           <tr>
             <td >
               <button class="btn btn-warning"
-              onclick=location.href="{{ route('posts.edit',['id'=>$post->id,'page'=>$page]) }}">수정</button>
+              onclick=location.href="{{ route('posts.edit',['id'=>$post->id,'page'=>$page,'where'=>$where]) }}">수정</button>
             </td>
             <td>
-              <form action="{{ route('posts.delete',['id'=>$post->id,'page'=>$page])  }}" method="post">
+              <form action="{{ route('posts.delete',['id'=>$post->id,'page'=>$page,'where'=>$where])  }}" method="post">
                 @csrf
                 @method('delete')
               <button type="submit" class="btn btn-danger">삭제</button>

@@ -31,7 +31,8 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/posts/create',[PostsController::class,'create']);
-
+Route::get('/posts/myPosts',[PostsController::class,'myPosts'])
+->name('posts.myPosts');
 
 Route::post('/posts/store',[PostsController::class,'store']);
 
@@ -49,3 +50,5 @@ Route::put('/posts/{id}',[PostsController::class,'update'])
 ->name('posts.update');
 Route::delete('/posts/{id}',[PostsController::class,'destroy'])
 ->name('posts.delete');
+
+

@@ -29,7 +29,7 @@
                      <td><a href="{{ route('posts.show',['id'=>$posts[$i-1]->id,
                      'page'=>$posts->currentPage()])}}">{{ $posts[$i-1]->title }}</a></td>
                      <td>{{ $posts[$i-1]->created_at }}</td>
-                     <td><a href="{{ route('posts.userinfo',['id'=>$posts[$i-1]->user_id]) }}">{{ $users->find($posts[$i-1]->user_id)->name }}</a></td>
+                     <td><a href="{{ route('posts.userinfo',['id'=>$posts[$i-1]->user_id,'page'=>$posts->currentPage()]) }}">{{ $users->find($posts[$i-1]->user_id)->name }}</a></td>
               </tr>
         
         </li>   

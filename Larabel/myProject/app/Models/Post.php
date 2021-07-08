@@ -14,4 +14,8 @@ class Post extends Model
         $name=$this->image??'noimge.jpg';
         return $path.$name;
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

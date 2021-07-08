@@ -57,13 +57,19 @@ class AllControll extends Controller
         $page=$request->page;
         $post=Post::find($id);
         $nickName=User::find($post->user_id)->name;
-        
-        return view('/posts/show',compact(['page','post','nickName']));
+        $where=$request->where;
+        return view('/posts/show',compact(['page','post','nickName','where']));
     }
 
-    public function edit($id){
+    public function edit(Request $request,$id){
         $post=Post::find($id);
-        return view('posts.edit',compact('post'));
+        $page=$request->page;
+
+        if($request->user()->cannot('update',$post)){
+            abort(403);
+        }
+        $where=$request->where;
+        return view('posts.edit',compact('post','page','where'));
     }
     public function update(Request $request,$id){
         $post=Post::find($id);
@@ -84,8 +90,14 @@ class AllControll extends Controller
         $post->title=$request->title;
         $post->content=$request->content;
         $post->save();
+        $page=$request->page;
 
-        return redirect()->route('posts.show',['id'=>$id]);
+        if($request->user()->cannot('update',$post)){
+            abort(403);
+        }
+        $where=$request->where;
+        
+        return redirect()->route('posts.show',['id'=>$id,'page'=>$page,'where'=>$where]);
         
     }  
 
@@ -96,13 +108,31 @@ class AllControll extends Controller
         }
         $post->delete();
         $page=$request->page;
-       return redirect()->route('posts.index',compact('page'));
+
+        if($request->user()->cannot('delete',$post)){
+            abort(403);
+        }
+
+        if($request->where=='my'){
+            return redirect()->route('posts.myIndex',compact('page'));      
+        }
+          return redirect()->route('posts.index',compact('page'));
     }
 
-    public function userinfo($id){
+    public function userinfo(Request $request,$id){
         $user=User::find($id);
         $posts=Post::all();
-        return view('posts.userInfo',compact('user','posts'));
+        $page=$request->page;
+        return view('posts.userInfo',compact('user','posts','page'));
+    }
+
+    public function myIndex(){
+        $posts=auth()->user()->posts()->latest()->paginate(5);
+        // dd($posts);
+        return view('posts.myIndex',['posts'=>$posts]);
+    }
+    public function comment(){
+        
     }
 
     public function PathFind(Request $request){

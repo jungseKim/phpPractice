@@ -8,8 +8,8 @@
 </head>
 <body>
     <div class="container ">
-        <form action="{{ route('posts.update',['id'=>$post->id])}} "
-              method="post"
+        <form action="{{ route('posts.update',['id'=>$post->id,'page'=>$page,'where'=>$where])}} "
+            method="post"
         enctype="multipart/form-data">
           @csrf
           @method('put')

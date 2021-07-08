@@ -16,7 +16,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
-                        {{ __('목록보기') }}
+                        {{ __('post') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('posts.myIndex')" :active="request()->routeIs('posts.myIndex')">
+                        {{ __('myList') }}
                     </x-nav-link>
                 </div>
             </div>
