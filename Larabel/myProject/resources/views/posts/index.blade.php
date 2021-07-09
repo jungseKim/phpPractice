@@ -15,12 +15,13 @@
       <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
       @endauth
       <table class="table table-striped mt-4">
-       <thead>
+       <thead class="table-dark">
        <tr>
               <td><h3>#</h3></td>
               <td><h3>Title</h3></td>
               <td><h3>Time</h3></td>
               <td><h3>User</h3></td>
+              <td><h3>view</h3></td>
        </tr>
        </thead>
        @for($i=1;$i-1<count($posts);$i++)
@@ -30,6 +31,7 @@
                      'page'=>$posts->currentPage()])}}">{{ $posts[$i-1]->title }}</a></td>
                      <td>{{ $posts[$i-1]->created_at }}</td>
                      <td><a href="{{ route('posts.userinfo',['id'=>$posts[$i-1]->user_id,'page'=>$posts->currentPage()]) }}">{{ $users->find($posts[$i-1]->user_id)->name }}</a></td>
+                     <td>{{ $posts[$i-1]->viewCount() }}</td>
               </tr>
         
         </li>   

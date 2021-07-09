@@ -51,10 +51,10 @@
               <input type="text" name="title" readonly
                class="form-control" value="{{ $nickName }}">
             </div>
-            @auth
+           
             @can('update',$post)
-              <div>
-                   <table>
+              <div class="position-relative">
+                   <table class="position-relative start">
                        <tr>
                               <td>
                   <button class="btn btn-warning"
@@ -71,13 +71,58 @@
                  </table>
                     </div> 
                     @endcan
-                   @endauth
 
+                    @auth
+                   <div class="position-relative">
+                    <table class="position-absolute  start-59">
+                        <tr>
+                               <td>
+                           <form action="{{ route('posts.Recommendation',['post_id'=>$post->id,'page'=>$page,'where'=>$where,'bool'=>0]) }}" method="post">
+                              @csrf
+                              @method('put')
+                            <button type="submit" class="btn btn-danger">추천-2</button>
+                          </form>   
+                          </td>
+                                    <td>
+                          <form action="{{ route('posts.Recommendation',['post_id'=>$post->id,'page'=>$page,'where'=>$where,'bool'=>1]) }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button type="submit" class="btn btn-danger">비추천-2</button>
+                              </form>  
+                                </td>
+                                </tr>
+                     </table>
+                        </div> 
+                        @endauth
+            
+                   
+                    <br>
+                    <h2 class="text-center">댓글</h2>
+                    @if ($comments!=null)
+                    <table class="table table-striped table-sm">
+                      <tr>
+                        <td><h5>name</td>
+                        <td><h5>comment</h5></td>
+                        <td><h5>time</h5></td>
+                      </tr>
+                    @foreach ($comments as $commnet )
+                   <tr>
+                     <td> 
+                      {{$cUsers->find($commnet->user_id)->name}}
+                     </td>
+                     <td>
+                       {{$commnet->content}}
+                     </td>
+                     <td>
+                       {{ $commnet->created_at->diffForHumans() }}
+                     </td>
+                   </tr>
+                    @endforeach
+                    </table>
+                    @endif
                     
-
-
                    @auth
-                   <form action="{{ route('posts.comment') }}" method="post">
+                   <form action="{{ route('posts.comment',['user_id'=>auth()->user()->id,'post_id'=>$post->id,'page'=>$page]) }}" method="post">
                     @csrf
                     <input type="text" name="command">
                      <button type="submit" class="btn btn-primary">댓글</button>

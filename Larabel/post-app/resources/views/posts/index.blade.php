@@ -20,14 +20,15 @@
                 <span>             
                     <a href="{{ route('posts.show',
                     ['id'=>$post->id,'page'=>$posts->currentPage()]) }}">
-                        Title : {{ $post->title}}
-                    </a>
+                        Title : {{ $post->title}}                     </a>
+
                 </span>
                 {{-- <div>
                     Content : {{ $post->content }}
                 </div> --}}
                 {{-- <span>written on {{ $post->created_at }}</span> --}}
                 <span>written on {{ $post->created_at->diffForHumans()}}</span>
+                <span>  {{ $post->count }}{{ $post->count>0?Str::plural('view',$post->count):'view' }}</span>
             </li>
             @endforeach
           </ul>

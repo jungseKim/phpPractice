@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTableSetNullPostsTable extends Migration
+class CreatePostUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,21 @@ class AlterTableSetNullPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            //
+        Schema::create('post_user', function (Blueprint $table) {
+            $table->id();
+
             $table->foreignId('user_id')
             ->constrained()
-            ->onDelete('set null')->change();
+            ->onDelete('cascade');
+        
+            $table->foreignId('post_id')
+            ->constrained()
+            ->onDelete('cascade');
+
+            $table->timestamp('creted_at');
+
+            
+            $table->unique(['user_id','post_id']);
         });
     }
 
@@ -28,11 +38,6 @@ class AlterTableSetNullPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            //
-            $table->foreignId('user_id')
-            ->constrained()
-            ->onDelete('cascade')->change();
-        });
+        Schema::dropIfExists('post_user');
     }
 }

@@ -40,8 +40,8 @@ Route::get('posts/show/{id}',[AllControll::class,'show'])
 Route::get('posts/{id}',[AllControll::class,'edit'])
 ->name('posts.edit');
 
-Route::put('posts/{id}',[AllControll::class,'update'])
-->name('posts.update');
+Route::put('posts/Recommendation',[AllControll::class,'Recommendation'])
+->name('posts.Recommendation');
 
 Route::delete('posts.delete/{id}',[AllControll::class,'delete'])
 ->name('posts.delete');
@@ -51,3 +51,6 @@ Route::get('posts/userinfo/{id}',[AllControll::class,'userinfo'])
 
 Route::post('posts/comment',[AllControll::class,'comment'])
 ->name('posts.comment');
+
+Route::put('posts/{id}',[AllControll::class,'update'])
+->name('posts.update');

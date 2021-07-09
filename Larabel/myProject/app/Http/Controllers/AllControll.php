@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 class AllControll extends Controller
 {
@@ -47,18 +49,33 @@ class AllControll extends Controller
     public function index(){
 
         $posts=Post::latest()->paginate(5);
-     
+        
         $users=User::all();
         
         return view('/posts/index',compact('posts','users'));
     
     }
     public function show(Request $request,$id){
+        // dd(auth()->guest().'_'.auth()->user());
+        // dd($request->cookie());
+        // dd($request->session()->get('id'));
         $page=$request->page;
         $post=Post::find($id);
         $nickName=User::find($post->user_id)->name;
         $where=$request->where;
-        return view('/posts/show',compact(['page','post','nickName','where']));
+
+        $comments=Comment::where('post_id',$post->id)->get();
+        $cUsers=User::all();
+        
+        
+        if(auth()->user()!=null){
+            if(DB::table('post_user')->where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->exists()==false){
+                DB::table('post_user')->insert(['user_id'=>auth()->user()->id,
+                'post_id'=>$post->id]);
+            }
+        }
+               
+        return view('/posts/show',compact(['page','post','nickName','where','comments','cUsers']));
     }
 
     public function edit(Request $request,$id){
@@ -131,8 +148,26 @@ class AllControll extends Controller
         // dd($posts);
         return view('posts.myIndex',['posts'=>$posts]);
     }
-    public function comment(){
+    public function comment(Request $request){
+        // dd($request->user_id.$request->post_id.$request->command);
+        $c=new Comment();
+        $c->user_id=$request->user_id;
+        $c->post_id=$request->post_id;
+        $c->content=$request->command;
+        $c->save();
         
+        return redirect()->route('posts.show',['id'=>$request->post_id,'page'=>$request->page]);
+    }
+
+    public function Recommendation(Request $request){
+        $post=Post::find($request->post_id);
+        
+        if(auth()->user()!=null){
+            if(DB::table('post_user')->where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->exists()==false){
+                DB::table('post_user')->insert(['user_id'=>auth()->user()->id,
+                'post_id'=>$post->id]);
+            }
+        }
     }
 
     public function PathFind(Request $request){

@@ -80,6 +80,10 @@ class PostsController extends Controller
         // dd($user_name);
         $my=Auth::id();
         $where=$request->where;
+
+        $post->count++;
+        $post->save();
+
         return view('posts.show',compact('post','page','user_name','my','where'));
     }
     public function index(){
@@ -185,7 +189,7 @@ class PostsController extends Controller
     }
 
     public function myPosts(){
-        // $posts=auth()->user()->posts->paginaet(5);
+        // $posts=auth()->user()->posts-paginaet(5);
         // $p=Post::find($posts->id)->latest()->paginate(5);
         $posts=Post::latest()->where('user_id',auth()->user()->id)->paginate(5);
         // dd($p);
