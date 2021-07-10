@@ -22,4 +22,10 @@ class Post extends Model
     public function viewCount(){
         return DB::table('post_user')->where('post_id',$this->id)->count();
     }
+    public function bad(){
+        return  DB::table('recommendations')->where('post_id',$this->id)->where('good',false)->count();
+    }
+    public function good(){
+        return  DB::table('recommendations')->where('post_id',$this->id)->where('good',true)->count();
+    }
 }

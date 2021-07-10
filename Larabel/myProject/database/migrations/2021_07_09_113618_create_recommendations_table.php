@@ -26,6 +26,7 @@ class CreateRecommendationsTable extends Migration
 
             $table->timestamp('creted_at');
 
+            $table->boolean('good');
             
             $table->unique(['user_id','post_id']);
         });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\models\Comment;
+use App\models\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -156,18 +157,44 @@ class AllControll extends Controller
         $c->content=$request->command;
         $c->save();
         
-        return redirect()->route('posts.show',['id'=>$request->post_id,'page'=>$request->page]);
+        return redirect()->route('posts.show',['id'=>$request->post_id,'page'=>$request->page,'where'=>$request->where]);
     }
 
-    public function Recommendation(Request $request){
-        $post=Post::find($request->post_id);
-        
-        if(auth()->user()!=null){
-            if(DB::table('post_user')->where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->exists()==false){
-                DB::table('post_user')->insert(['user_id'=>auth()->user()->id,
-                'post_id'=>$post->id]);
-            }
+    public function Recommendation(Request $request,$id){
+        if(auth()->guest()){
+            return redirect()->route('posts.show',['id'=>$id,'page'=>$request->page,'where'=>$request->where]);
         }
+
+        $post=Post::find($id);
+        if(auth()->user()!=null){
+            if(DB::table('recommendations')->where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->exists()==false){
+                DB::table('recommendations')->insert(['user_id'=>auth()->user()->id,
+                'post_id'=>$post->id,'good'=>$request->bool?1:0]);
+            }
+            else {
+                $re3=Recommendation::where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->first();
+                
+                if($request->bool){
+                    DB::table('recommendations')
+                    ->where('id', $re3->id)
+                    ->update(['good' => true]);
+        
+                }
+                else{   
+                    DB::table('recommendations')
+                    ->where('id', $re3->id)
+                    ->update(['good' => false]);
+                }
+            }
+            return redirect()->route('posts.show',['id'=>$id,'page'=>$request->page,'where'=>$request->where]);
+        }
+        
+    }       //search
+    public function search(Request $request){
+        $posts=Post::where('title','like',$request->name.'%')->paginate(5);
+        // dd($posts);
+        $name=$request->name;
+        return view('posts.search',compact('posts','name'));
     }
 
     public function PathFind(Request $request){

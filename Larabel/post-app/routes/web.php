@@ -31,6 +31,7 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/posts/create',[PostsController::class,'create']);
+
 Route::get('/posts/myPosts',[PostsController::class,'myPosts'])
 ->name('posts.myPosts');
 

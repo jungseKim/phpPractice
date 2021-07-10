@@ -72,28 +72,28 @@
                     </div> 
                     @endcan
 
-                    @auth
+                    
                    <div class="position-relative">
                     <table class="position-absolute  start-59">
                         <tr>
                                <td>
-                           <form action="{{ route('posts.Recommendation',['post_id'=>$post->id,'page'=>$page,'where'=>$where,'bool'=>0]) }}" method="post">
+                           <form action="{{ route('posts.Recommendation',['id'=>$post->id,'page'=>$page,'where'=>$where,'bool'=>1]) }}" method="post">
                               @csrf
                               @method('put')
-                            <button type="submit" class="btn btn-danger">추천-2</button>
+                            <button type="submit" class="btn btn-warning">추천{{ $post->good() }}</button>
                           </form>   
                           </td>
                                     <td>
-                          <form action="{{ route('posts.Recommendation',['post_id'=>$post->id,'page'=>$page,'where'=>$where,'bool'=>1]) }}" method="post">
+                          <form action="{{ route('posts.Recommendation',['id'=>$post->id,'page'=>$page,'where'=>$where,'bool'=>0]) }}" method="post">
                             @csrf
                             @method('put')
-                            <button type="submit" class="btn btn-danger">비추천-2</button>
+                            <button type="submit" class="btn btn-danger">비추천{{ $post->bad() }}</button>
                               </form>  
                                 </td>
                                 </tr>
                      </table>
                         </div> 
-                        @endauth
+                      
             
                    
                     <br>
@@ -122,7 +122,7 @@
                     @endif
                     
                    @auth
-                   <form action="{{ route('posts.comment',['user_id'=>auth()->user()->id,'post_id'=>$post->id,'page'=>$page]) }}" method="post">
+                   <form action="{{ route('posts.comment',['user_id'=>auth()->user()->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
                     @csrf
                     <input type="text" name="command">
                      <button type="submit" class="btn btn-primary">댓글</button>
