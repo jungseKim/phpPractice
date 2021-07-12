@@ -13,6 +13,8 @@
        <div class=" mt-5 mb-3">
               @if ($where=='my')
               <a class="btn btn-primary" href="{{ route('posts.myIndex',['page'=>$page]) }}">목록 보기</a>
+              @elseif ($where=='se')
+              <a class="btn btn-primary" href="{{ route('posts.search',['page'=>$page]) }}">목록 보기</a>
               @else
               <a class="btn btn-primary" href="{{ route('posts.index',['page'=>$page]) }}">목록 보기</a>
               @endif

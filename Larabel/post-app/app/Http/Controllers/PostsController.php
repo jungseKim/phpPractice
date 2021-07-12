@@ -78,13 +78,21 @@ class PostsController extends Controller
         $post=Post::find($id);
         $user_name=User::find($post->user_id)->name;
         // dd($user_name);
-        $my=Auth::id();
         $where=$request->where;
 
-        $post->count++;
-        $post->save();
+        // $post->count++;
+        // $post->save();
 
-        return view('posts.show',compact('post','page','user_name','my','where'));
+        // 이글을 조회한 사용자들 중에 현재 
+        // 로그인한 사용자가 포함되어 있는지를 체크 
+        // 포함되어 있지 않으면 추가.
+        // 포함되어 있으면 다음 단계로 넘어감
+        if(Auth::user()!=null && !$post->viewers->contains(Auth::user())) //객체 를 줘도되고 객체 아이디줘도됨
+        {
+           $post->viewers()->attach(Auth::user()->id);
+        }
+
+        return view('posts.show',compact('post','page','user_name','where'));
     }
     public function index(){
         //뷰 필요

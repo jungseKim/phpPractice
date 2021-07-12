@@ -12,6 +12,9 @@
        <button class="btn btn-primary m-4"
        onclick=location.href="{{ route('posts.index',['page'=>$page]) }}">목록보기</button>
        <h1 class="text-center">user info</h1>
+      <div>
+      <img class=" mx-auto"src="{{ $user->userImage() }}">       
+</div>
        <div class="container ">
               <div class="form-group">
                      <label>닉내임</label>

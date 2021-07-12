@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AllControll;
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,17 @@ Route::get('posts/show/{id}',[AllControll::class,'show'])
 
 Route::get('/posts/search',[AllControll::class,'search'])
 ->name('posts.search');
+
+Route::get('/users/profile',[userController::class,'profile'])
+->name('users.profile');
+
+Route::get('/users/profileEdit',[userController::class,'profileEdit'])
+->name('users.profileEdit');
+
+Route::put('/users/{id}',[userController::class,'profileUpdate'])
+->name('users.profileUpdate');
+
+
 //posts.search
 Route::post('posts/comment',[AllControll::class,'comment'])
 ->name('posts.comment');

@@ -26,4 +26,10 @@ class Post extends Model
         return $this->belongsTo(User::class);
         //belongsTo 내부적으로 조인함 객체가 반환 된다.
     }
+
+    public function viewers(){
+        // return $this->belongsToMany(User::class);
+        //결과는 같음
+        return $this->belongsToMany(User::class,'post_user','post_id','user_id','id','id','users');
+    }
 }

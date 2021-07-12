@@ -5,6 +5,7 @@
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <meta http-equiv="X-UA-Compatible" content="ie=edge">
        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
        <title>Document</title>
        <style>
               html,
@@ -33,6 +34,7 @@
 </head>
       <!-- component -->
 <body class="antialiased font-sans bg-gray-200">
+    <a class="btn btn-primary" href="{{ route('posts.index') }}">목록 보기</a>
        <div class="container mx-auto px-4 sm:px-8">
            <div class="py-8">
                <div>
@@ -47,12 +49,11 @@
                                </path>
                            </svg>
                        </span>
-                      <form class="flex">
-                            <input placeholder="Search"
-                            class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
-                           <button type=" submit" class="w-auto h-9 px-8 rounded-r-lg bg-yellow-400
-                   text-gray-800 font-bold p-4 uppercase border-yellow-500 border-t border-b border-r inline-flex items-center">검색</button>
-                     </form>
+                       <form method="GET" class="mt-3 ml-20 flex" action="{{ route('posts.search') }}">
+                        <input type="text" name="name" class="w-30  h-10 rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"/>
+                           <button type="submit" class="w-auto  h-10 px-8 rounded-r-lg bg-yellow-400
+                             text-gray-800 font-bold p-4 uppercase border-yellow-500 border-t border-b border-r inline-flex items-center">검색</button>
+                    </form>
                    </div>
                </div>
                <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -85,12 +86,12 @@
                                        <div class="flex items-center">
                                            <div class="flex-shrink-0 w-10 h-10">
                                                <img class="w-full h-full rounded-full"
-                                                   src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                                   src="{{ $post->user->userImage() }}"
                                                    alt="" />
                                            </div>
                                            <div class="ml-3">
                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                <a href="{{ route('posts.show',['id'=>$post->id]) }}"> {{  $post->title}}</a>
+                                                <a href="{{ route('posts.show',['id'=>$post->id,'page'=>$posts->currentPage(),'where'=>'se']) }}"> {{  $post->title}}</a>
                                                </p>
                                            </div>
                                        </div>

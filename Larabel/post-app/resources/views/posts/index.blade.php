@@ -28,7 +28,7 @@
                 </div> --}}
                 {{-- <span>written on {{ $post->created_at }}</span> --}}
                 <span>written on {{ $post->created_at->diffForHumans()}}</span>
-                <span>  {{ $post->count }}{{ $post->count>0?Str::plural('view',$post->count):'view' }}</span>
+                <span>  {{ $post->viewers->count() }}{{ $post->viewers->count()>0?Str::plural('view',$post->count):'view' }}</span>
             </li>
             @endforeach
           </ul>

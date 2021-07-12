@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('posts.myIndex')" :active="request()->routeIs('posts.myIndex')">
                         {{ __('myList') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('users.profile')" :active="request()->routeIs('users.profile')">
+                        {{ __('myprofile') }}
+                    </x-nav-link>
                 </div>
             </div>
 

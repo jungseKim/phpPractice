@@ -24,7 +24,8 @@ class CreatePostUserTable extends Migration
             ->constrained()
             ->onDelete('cascade');
 
-            $table->timestamp('creted_at');
+            $table->timestamp('created_at')
+            ->useCurrent();
 
             
             $table->unique(['user_id','post_id']);

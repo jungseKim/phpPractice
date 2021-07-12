@@ -191,11 +191,14 @@ class AllControll extends Controller
         
     }       //search
     public function search(Request $request){
-        $posts=Post::where('title','like',$request->name.'%')->paginate(5);
+        $posts=Post::where('title','like','%'.$request->name.'%')->paginate(5);
         // dd($posts);
         $name=$request->name;
+      
         return view('posts.search',compact('posts','name'));
     }
+
+    
 
     public function PathFind(Request $request){
         $name=$request->imageFile->getClientOriginalName();
