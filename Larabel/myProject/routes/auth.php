@@ -9,6 +9,10 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GitHubController;
+use App\Http\Controllers\KakaoController;
+
+Route::get('/kakao/callback', [KakaoController::class,'callback']);
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
                 ->middleware('guest')
@@ -62,3 +66,11 @@ Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('logout');
+
+Route::get('/github/login', [GitHubController::class,'redirect'])
+->name('github');
+Route::get('/github/callback',  [GitHubController::class,'callback']);
+
+Route::get('/kakao/login', [KakaoController::class,'redirect'])
+->name('kakao');
+

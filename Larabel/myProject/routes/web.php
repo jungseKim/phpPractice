@@ -25,7 +25,8 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('posts/create',[AllControll::class,'create']);
+Route::get('posts/create',[AllControll::class,'create'])
+->name('posts.create');
 
 Route::get('posts/myIndex',[AllControll::class,'myIndex'])
 ->name('posts.myIndex');

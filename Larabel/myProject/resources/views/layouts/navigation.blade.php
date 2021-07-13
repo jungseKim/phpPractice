@@ -18,16 +18,26 @@
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('post') }}
                     </x-nav-link>
+                    @auth
                     <x-nav-link :href="route('posts.myIndex')" :active="request()->routeIs('posts.myIndex')">
                         {{ __('myList') }}
                     </x-nav-link>
                     <x-nav-link :href="route('users.profile')" :active="request()->routeIs('users.profile')">
                         {{ __('myprofile') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                        {{ __('create') }}
+                    </x-nav-link>
+                    @else
+                    <x-nav-link :href="route('login')" :active="request()->routeIs('posts.login')">
+                        {{ __('login') }}
+                    </x-nav-link>
+                    @endauth
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
+            @auth
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -56,6 +66,7 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+            @endauth
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -78,6 +89,7 @@
         </div>
 
         <!-- Responsive Settings Options -->
+        @auth
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -97,5 +109,6 @@
                 </form>
             </div>
         </div>
+        @endauth
     </div>
 </nav>

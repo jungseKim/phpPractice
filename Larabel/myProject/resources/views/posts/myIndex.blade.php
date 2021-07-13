@@ -1,37 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</head>
-<body>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+        
+    </x-slot>
     <div class="container mt-5 mb-5">
-        {{-- 대괄호로 해야 라우터 이동가능  --}}
-        <a href="{{ route('dashboard') }}">DashBored</a>
-        <h1>나의 작성글</h1>
        @auth
         <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
         @endauth
-        <ul class="list-group mt-3">
-            @foreach($posts as $post)
-            <li class="list-group-item">
-                <span>             
-                    <a href="{{ route('posts.show',
-                    ['id'=>$post->id,'page'=>$posts->currentPage(),'where'=>'my']) }}">
-                        Title : {{ $post->title}}
-                    </a>
-                </span>
+        <div class="grid grid-cols-3 gap-4">
 
-                <span>written on {{ $post->created_at->diffForHumans()}}</span>
-            </li>
+        @foreach($posts as $post)
+           
+            <div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md">
+                <div class="flex justify-between items-center">
+                    <span class="font-light hover:bg-gray-200 text-xl font-bold text-gray-600"><span>             
+                        <a href="{{ route('posts.show',
+                        ['id'=>$post->id,'page'=>$posts->currentPage(),'where'=>'my']) }}">
+                            {{ $post->title}}
+                        </a>
+                    </span>
+                    <p class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded " >{{ $post->created_at->diffForHumans() }}</p>
+                </div>
+                
+                <div class="flex justify-between items-center mt-4">
+                view: {{ $post->viewCount() }}
+                    <div>
+                        <a class="flex items-center" href="#">
+                            <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="{{$user->userImage() }}" alt="avatar">
+                            <h1 class="text-gray-700 font-bold"><a href="{{ route('posts.userinfo',['id'=>$post->user_id,'page'=>$posts->currentPage()]) }}">{{ $user->name }}</a></h1>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             @endforeach
-          </ul>
+        </div>
           <div class="mt-5">
               {{ $posts->links() }}
           </div>
     </div>
     
-</body>
-</html>
+</x-app-layout>

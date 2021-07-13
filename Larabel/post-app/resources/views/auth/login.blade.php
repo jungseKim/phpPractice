@@ -52,5 +52,19 @@
                 </x-button>
             </div>
         </form>
+      <div class="flex items-center justify-end mt-4">
+        <a role="button" class="bg-red-600 hover:white-red-700 text-white text-sm px-4 py-2  border rounded-full"
+        >
+           google
+            </a>
+            <a role="button" class="bg-yellow-600 hover:white-red-700 text-white text-sm px-4 py-2  border rounded-full">
+                kokao
+        </a>
+      </div>
+      <a href="{{ route('github.login') }}" role="button" class="bg-blue-600 hover:bg-white-700 text-white text-sm px-4 py-2  border rounded-full">
+        git hub
+</a>
     </x-auth-card>
+   
+        
 </x-guest-layout>

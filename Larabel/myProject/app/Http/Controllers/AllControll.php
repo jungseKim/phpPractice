@@ -49,7 +49,7 @@ class AllControll extends Controller
     
     public function index(){
 
-        $posts=Post::latest()->paginate(5);
+        $posts=Post::latest()->paginate(6);
         
         $users=User::all();
         
@@ -145,9 +145,10 @@ class AllControll extends Controller
     }
 
     public function myIndex(){
-        $posts=auth()->user()->posts()->latest()->paginate(5);
+        $posts=auth()->user()->posts()->latest()->paginate(6);
+        $user=auth()->user();
         // dd($posts);
-        return view('posts.myIndex',['posts'=>$posts]);
+        return view('posts.myIndex',['posts'=>$posts,'user'=>$user]);
     }
     public function comment(Request $request){
         // dd($request->user_id.$request->post_id.$request->command);
@@ -191,7 +192,7 @@ class AllControll extends Controller
         
     }       //search
     public function search(Request $request){
-        $posts=Post::where('title','like','%'.$request->name.'%')->paginate(5);
+        $posts=Post::where('title','like','%'.$request->name.'%')->paginate(6);
         // dd($posts);
         $name=$request->name;
       
