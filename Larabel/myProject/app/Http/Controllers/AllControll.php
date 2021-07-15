@@ -69,11 +69,15 @@ class AllControll extends Controller
         $cUsers=User::all();
         
         
-        if(auth()->user()!=null){
-            if(DB::table('post_user')->where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->exists()==false){
-                DB::table('post_user')->insert(['user_id'=>auth()->user()->id,
-                'post_id'=>$post->id]);
-            }
+        // if(auth()->user()!=null){
+        //     if(DB::table('post_user')->where([['user_id','=',auth()->user()->id],['post_id','=',$post->id]])->exists()==false){
+        //         DB::table('post_user')->insert(['user_id'=>auth()->user()->id,
+        //         'post_id'=>$post->id]);
+        //     }
+        // }
+        if(Auth::user()!=null && !$post->viewCount->contains(Auth::user())) //객체 를 줘도되고 객체 아이디줘도됨
+        {
+           $post->viewCount()->attach(Auth::user()->id);
         }
                
         return view('/posts/show',compact(['page','post','nickName','where','comments','cUsers']));

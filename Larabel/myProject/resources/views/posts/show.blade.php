@@ -7,7 +7,43 @@
        <title>Document</title>
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</head>
+  <script>
+    //  window.onload = function() {
+    //             document.getElementById("B").onclick = function() {
+    //                 let text=document.getElementById("c_d");
+    //                 let t2=text.innerText;
+    //                 // let t2="hiii";
+    //                 text.innerHTML=`<input type='text' name='coment' id='c_d' value=${t2} >`;
+    //                 // document.getElementById("c_d").value =t2;
+
+    //                 let button=document.getElementById("B");
+    //                 button.innerHTML='<button onclick="send()">완료</button>'
+    //                 //1 자스로 태그 바꿔주기 라우터 이동 x
+    //                 //2 form 으로 라우터 이동한후 리다이렉트 
+    //             }
+    //         }
+            function button(id) {
+              // event.preventDefault();
+              // event.stopPropagation();
+                    let text=document.getElementById(id);
+                    let t2=text.innerText;
+                    // let t2="hiii";
+                    text.innerHTML=`<input type='text' name='coment' id='c_d' value=${t2} >`;
+                    // document.getElementById("c_d").value =t2;
+
+                    let button=document.getElementById(id+"bt");
+                    button.innerHTML=`<button onclick="send(${id})">완료</button>`;
+                    // button.onclick=send(${id+"fo");
+                    //1 자스로 태그 바꿔주기 라우터 이동 x
+                    //2 form 으로 라우터 이동한후 리다이렉트 
+                  
+                }
+            function send(id){
+              let fo=document.getElementById(id+"fo");
+              fo.submit();
+            }
+  </script>
+  </head>
 <body>
       <div class="container ">
        <div class=" mt-5 mb-3">
@@ -106,6 +142,7 @@
                         <td><h5>name</td>
                         <td><h5>comment</h5></td>
                         <td><h5>time</h5></td>
+                        <td><h5></h5></td>
                       </tr>
                     @foreach ($comments as $commnet )
                    <tr>
@@ -113,10 +150,25 @@
                       {{$cUsers->find($commnet->user_id)->name}}
                      </td>
                      <td>
-                       {{$commnet->content}}
-                     </td>
+                      <form id="{{ $commnet->id }}fo"  action="{{ route('comment.update',['id'=>$commnet->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <span  id="{{ $commnet->id }}" >{{$commnet->content}}</span>
+                      
+                      </form>
+                      </td>
                      <td>
                        {{ $commnet->created_at->diffForHumans() }}
+                     </td>
+                     <td>
+                       @can('delete',$commnet)
+                         <button id="{{ $commnet->id }}bt" onclick="button({{ $commnet->id }})">수정</button>
+                        
+                         <form action="{{ route('comment.delete',['id'=>$commnet->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
+                          @csrf
+                          @method('delete')
+                          <button type="submit" class="btn btn-danger">삭제</button>
+                       @endcan
                      </td>
                    </tr>
                     @endforeach
@@ -124,12 +176,14 @@
                     @endif
                     
                    @auth
-                   <form action="{{ route('posts.comment',['user_id'=>auth()->user()->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
+                   <form action="{{ route('comment.create',['user_id'=>auth()->user()->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
                     @csrf
                     <input type="text" name="command">
                      <button type="submit" class="btn btn-primary">댓글</button>
                    </form>
                    @endauth
+                   
+                   
         
       </div>
 </body>

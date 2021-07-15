@@ -3,7 +3,8 @@
 use App\Http\Controllers\AllControll;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ChartController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,8 +54,12 @@ Route::put('/users/{id}',[userController::class,'profileUpdate'])
 
 
 //posts.search
-Route::post('posts/comment',[AllControll::class,'comment'])
-->name('posts.comment');
+Route::post('comment/create',[CommentController::class,'create'])
+->name('comment.create');
+Route::delete('comment/delete/{id}',[CommentController::class,'delete'])
+->name('comment.delete');
+Route::put('comment/update/{id}',[CommentController::class,'update'])
+->name('comment.update');
 
 Route::put('posts/{id}',[AllControll::class,'update'])
 ->name('posts.update');
@@ -70,3 +75,6 @@ Route::delete('posts.delete/{id}',[AllControll::class,'delete'])
 
 Route::get('posts/userinfo/{id}',[AllControll::class,'userinfo'])
 ->name('posts.userinfo');
+
+Route::get('/chart/index',[ChartController::class,'index'])
+->name('chart');

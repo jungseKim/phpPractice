@@ -20,7 +20,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
     public function viewCount(){
-        return DB::table('post_user')->where('post_id',$this->id)->count();
+        // return DB::table('post_user')->where('post_id',$this->id)->count();
+         return $this->belongsToMany(User::class,'post_user','post_id','user_id','id','id','users');
     }
     public function bad(){
         return  DB::table('recommendations')->where('post_id',$this->id)->where('good',false)->count();

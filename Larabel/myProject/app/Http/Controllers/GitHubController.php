@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Models\User;
 class GitHubController extends Controller
 {
    public function __construct()
@@ -15,7 +19,16 @@ class GitHubController extends Controller
    }
 
    public function callback(){
-    return $user = Socialite::driver('github')->user();
-    dd($user);
+    $user = Socialite::driver('github')->user();
+
+    $user=User::firstOrCreate(['email'=>$user->getEmail()],
+            ['password'=>Hash::make(Str::random(24)),
+            'name'=>$user->getName()]);
+            dd($user);
+    Auth::login($user);
+
+    return redirect()->intended('/dashboard');
+
    }
+   
 }

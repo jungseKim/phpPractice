@@ -29,12 +29,12 @@
            <span class="font-light text-xl hover:bg-gray-200 font-bold text-gray-600"><a href="{{ route('posts.show',['id'=>$posts[$i-1]->id,
               'page'=>$posts->currentPage()])}}">{{ $posts[$i-1]->title }}
               </a>
-            </span>
-           <p class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded " >{{ $posts[$i-1]->created_at->diffForHumans() }}</p>
+            </span >
+           <p class="px-2 py-1 bg-gray-600  text-gray-100 font-bold rounded " >{{ $posts[$i-1]->created_at->diffForHumans() }}</p>
        </div>
        
        <div class="flex justify-between items-center mt-4">
-       view: {{ $posts[$i-1]->viewCount() }}
+       view: {{ $posts[$i-1]->viewCount()->count() }}
            <div>
                <a class="flex items-center" href="#">
                    <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="{{$users->find($posts[$i-1]->user_id)->userImage() }}" alt="avatar">

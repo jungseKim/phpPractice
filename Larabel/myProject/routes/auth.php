@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GitHubController;
 use App\Http\Controllers\KakaoController;
-
+use App\Http\Controllers\GoogleController;
 Route::get('/kakao/callback', [KakaoController::class,'callback']);
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
@@ -74,3 +74,7 @@ Route::get('/github/callback',  [GitHubController::class,'callback']);
 Route::get('/kakao/login', [KakaoController::class,'redirect'])
 ->name('kakao');
 
+Route::get('/google/login', [GoogleController::class,'redirect'])
+->name('google');
+
+Route::get('/google/callback',  [GoogleController::class,'callback']);

@@ -1,50 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
-  </head>
-<body>
-    <div class="container">
+<x-app-layout>
+  <x-slot name="header">
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+          {{ __('Dashboard') }}
+      </h2>
+      
+  </x-slot>
+
+    
         <form action="/posts/store" method="post"
         enctype="multipart/form-data">
           @csrf
-            <div class="form-group">
-              <label for="title">Title</label>
-              <input type="text" name="title" class="form-control" id="title"
-              value="{{ old('title') }}">
-                @error('title')
-                  <div>{{ $message }}</div>
-                @enderror
-              
-            </div>
-            <div class="form-group">
-              <label for="content">Content</label>
-              <textarea class="form-control" name="content" id="content"
-              value="{{ old('content') }}">
-                 </textarea>
-            </div>
-            
-              @error('content')
-              <div >{{ $message }}</div>     
-              @enderror
-          
-            <br>
-
-            <div class="form-group mb-4">
-                <label for="file">File</label><br>
-                <input type="file" name="imageFile" id="file">
-              </div>
-              @error('image')
-                  <div>{{ $message }}</div>
-              @enderror
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+           <!-- component -->
+<div class="heading text-center font-bold text-2xl m-5 text-gray-800">New Post</div>
+<style>
+  body {background:white !important;}
+</style>
+  <div class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">
+    <input class="title bg-gray-100 border border-gray-300 p-2 mb-4 outline-none" spellcheck="false" placeholder="Title" type="text" name="title" id="title" value="{{ old('title') }}">
+    @error('title')
+    <div>{{ $message }}</div>
+  @enderror
+    <textarea class="description bg-gray-100 sec p-3 h-60 border border-gray-300 outline-none" spellcheck="false" placeholder="Describe everything about this post here"  name="content" id="content"
+    value="{{ old('content') }}"></textarea>
+    @error('content')
+    <h1>{{ $message }}</h1>     
+    @enderror
+    
+    <!-- icons -->
+    <div class="icons flex text-gray-500 m-2">
+      <div class="form-group mb-4">
+        <label for="file">File</label><br>
+        <input type="file" name="imageFile" id="file">
+      </div>
+      @error('image')
+          <div>{{ $message }}</div>
+      @enderror </div>
+    <!-- buttons -->
+    <div class="buttons flex">
+      <button type="button" onClick={{ back() }}  class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto">Cancel</button>
+      <button type="submit" class="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500">Submit</button>
     </div>
-    <script>
+  </div>
+      
+  </form>
+    
+    {{-- <script>
       ClassicEditor
               .create( document.querySelector( '#content' ) )
               .then( editor => {
@@ -53,7 +53,5 @@
               .catch( error => {
                       console.error( error );
               } );
-</script>
-    
-</body>
-</html>
+</script> --}}
+</x-app-layout>

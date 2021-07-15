@@ -1,20 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
+
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
-class KakaoController extends Controller
+class GoogleController extends Controller
 {
     public function redirect(){
-        return Socialite::driver('kakao')->redirect();
+       return Socialite::driver('google')->redirect();
     }
     public function callback(){
-    
-        $user = Socialite::driver('kakao')->stateless()->user();
+        $user = Socialite::driver('google')->user();
         $users=User::firstOrCreate(['email'=>$user->getEmail()],
         ['password'=>Hash::make(Str::random(24)),
         'name'=>$user->getName()

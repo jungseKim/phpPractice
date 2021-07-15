@@ -55,7 +55,7 @@
 
                 <a class="mr-7 text-2xl  border-2 rounded-lg font-bold " href="{{ route('github') }}">git hub</a>
 
-                <a class="mr-7  text-2xl text-gray-500 border-2 rounded-lg font-bold " href="">google</a>
+                <a class="mr-7  text-2xl text-gray-500 border-2 rounded-lg font-bold " href="{{ route('google') }}">google</a>
                 
                 <a class=" text-2xl text-yellow-500 text  border-2 rounded-lg font-bold " href="{{ route('kakao') }}">kakao</a>
             </div>

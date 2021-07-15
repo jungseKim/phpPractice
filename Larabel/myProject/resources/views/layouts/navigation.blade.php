@@ -33,6 +33,9 @@
                         {{ __('login') }}
                     </x-nav-link>
                     @endauth
+                    <x-nav-link :href="route('chart')" :active="request()->routeIs('posts.chart')">
+                        {{ __('chart') }}
+                    </x-nav-link>
                 </div>
             </div>
 
