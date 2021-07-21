@@ -8,20 +8,6 @@
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script>
-    //  window.onload = function() {
-    //             document.getElementById("B").onclick = function() {
-    //                 let text=document.getElementById("c_d");
-    //                 let t2=text.innerText;
-    //                 // let t2="hiii";
-    //                 text.innerHTML=`<input type='text' name='coment' id='c_d' value=${t2} >`;
-    //                 // document.getElementById("c_d").value =t2;
-
-    //                 let button=document.getElementById("B");
-    //                 button.innerHTML='<button onclick="send()">완료</button>'
-    //                 //1 자스로 태그 바꿔주기 라우터 이동 x
-    //                 //2 form 으로 라우터 이동한후 리다이렉트 
-    //             }
-    //         }
             function button(id) {
               // event.preventDefault();
               // event.stopPropagation();
@@ -45,16 +31,23 @@
   </script>
   </head>
 <body>
-      <div class="container ">
-       <div class=" mt-5 mb-3">
-              @if ($where=='my')
+      <div class="container">
+        <div class="row">
+          <div class="col-1">
+            @if ($pre!=null)
+               <a class="btn btn-primary" href="{{ route('posts.show',['id'=>$pre,'page'=>$page,'where'=>$where]) }}">이전</a>
+            @endif
+          </div>
+        
+       <div class="col-10 mt-5 mb-3">
+              @if ($where==null)
               <a class="btn btn-primary" href="{{ route('posts.myIndex',['page'=>$page]) }}">목록 보기</a>
-              @elseif ($where=='se')
-              <a class="btn btn-primary" href="{{ route('posts.search',['page'=>$page]) }}">목록 보기</a>
-              @else
+              @elseif ($where=='my')
               <a class="btn btn-primary" href="{{ route('posts.index',['page'=>$page]) }}">목록 보기</a>
+              @else
+              <a class="btn btn-primary" href="{{ route('posts.search',['page'=>$page,'name'=>$where]) }}">목록 보기</a>
               @endif
-       </div>
+       
 
        <div class="form-group">
               <label for="title">Title</label>
@@ -162,12 +155,13 @@
                      </td>
                      <td>
                        @can('delete',$commnet)
-                         <button id="{{ $commnet->id }}bt" onclick="button({{ $commnet->id }})">수정</button>
-                        
-                         <form action="{{ route('comment.delete',['id'=>$commnet->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
-                          @csrf
-                          @method('delete')
-                          <button type="submit" class="btn btn-danger">삭제</button>
+                        <div class="flex items-stretch ">
+                          <button id="{{ $commnet->id }}bt" onclick="button({{ $commnet->id }})">수정</button>
+                          <form action="{{ route('comment.delete',['id'=>$commnet->id,'post_id'=>$post->id,'page'=>$page,'where'=>$where]) }}" method="post">
+                           @csrf
+                           @method('delete')
+                           <button type="submit">삭제</button>
+                        </div>
                        @endcan
                      </td>
                    </tr>
@@ -182,9 +176,14 @@
                      <button type="submit" class="btn btn-primary">댓글</button>
                    </form>
                    @endauth
+                   </div>
                    
-                   
-        
+                <div class="col-1 items-center">
+                       @if ($next!=null)
+               <a class="btn btn-primary" href="{{ route('posts.show',['id'=>$next,'page'=>$page,'where'=>$where]) }}">다음</a>
+                       @endif
+                 </div>     
+        </div>
       </div>
 </body>
 </html>

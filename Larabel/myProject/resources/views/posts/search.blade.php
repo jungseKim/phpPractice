@@ -91,7 +91,7 @@
                                            </div>
                                            <div class="ml-3">
                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                <a href="{{ route('posts.show',['id'=>$post->id,'page'=>$posts->currentPage(),'where'=>'se']) }}"> {{  $post->title}}</a>
+                                                <a href="{{ route('posts.show',['id'=>$post->id,'page'=>$posts->currentPage(),'where'=>$name]) }}"> {{  $post->title}}</a>
                                                </p>
                                            </div>
                                        </div>
